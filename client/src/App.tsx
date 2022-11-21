@@ -4,14 +4,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { getFetch, httpBatchLink, loggerLink } from "@trpc/client";
 import { trpc } from "./trpc";
 
-function AppContent() {
-  const hello = trpc.sayHello.useQuery();
-  const isAuth = trpc.getMe.useQuery();
-  if (!isAuth.data) {
-    return <main>You are not autenthicated!</main>;
-  }
-  return <main className="p-2">{JSON.stringify(hello.data, null, 2)}</main>;
-}
+import AppLayout from "./layout";
 
 function App() {
   const [queryClient] = useState(
@@ -45,7 +38,7 @@ function App() {
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <AppContent />
+        <AppLayout />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </trpc.Provider>
