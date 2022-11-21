@@ -6,6 +6,10 @@ import { trpc } from "./trpc";
 
 function AppContent() {
   const hello = trpc.sayHello.useQuery();
+  const isAuth = trpc.getMe.useQuery();
+  if (!isAuth.data) {
+    return <main>You are not autenthicated!</main>;
+  }
   return <main className="p-2">{JSON.stringify(hello.data, null, 2)}</main>;
 }
 
