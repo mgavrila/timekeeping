@@ -36,6 +36,7 @@ export const findUser = async (
 // Sign Token
 export const signToken = async (user: DocumentType<User>) => {
   const userId = user._id.toString()
+
   // Sign the access token
   const access_token = signJwt({ sub: userId }, 'accessTokenPrivateKey', {
     expiresIn: `${customConfig.accessTokenExpiresIn}m`,

@@ -1,8 +1,35 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, Button, Input, Card, Typography } from 'antd'
 import { Link } from 'react-router-dom'
+import { trpc } from '../../trpc'
 
 const Login: React.FC = () => {
+  const loginMutation = trpc.loginUser.useMutation()
+
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  })
+
+  const handleChange = (event: { target: { name: string; value: any } }) => {
+    const { name, value } = event.target
+
+    setFormData((prevState) => ({ ...prevState, [name]: value }))
+  }
+
+  const onSubmit = () => {
+    loginMutation.mutate({
+      email: formData.email,
+      password: formData.password,
+    })
+  }
+
+  useEffect(() => {
+    if (loginMutation.data) {
+      //TODO: set in cookie authToken
+    }
+  }, [loginMutation])
+
   return (
     <Card
       title={<Typography.Title level={3}>Log In</Typography.Title>}
@@ -29,15 +56,30 @@ const Login: React.FC = () => {
           gap: 12,
           width: '100%',
         }}
+        onFinish={onSubmit}
       >
-        <Input placeholder="Username" required />
+        <Input
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
 
-        <Input.Password placeholder="Password" required />
+        <Input.Password
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
 
         <Typography>
           Don't have an account? Register <Link to="/register">here</Link>.
         </Typography>
-        <Button>Sign In</Button>
+        <Button type="primary" htmlType="submit">
+          Sign In
+        </Button>
       </Form>
     </Card>
   )
