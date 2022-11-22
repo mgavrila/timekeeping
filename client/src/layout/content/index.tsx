@@ -2,10 +2,9 @@ import React, { Suspense } from 'react'
 import { Layout } from 'antd'
 import Login from '../../sections/auth/Login'
 import Register from '../../sections/auth/Register'
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Dashboard from '../../sections/dashboard'
-import { ProtectedRoute } from '../../context/ProtectedRoute'
-import { AuthProvider } from '../../context/AuthProvider'
+import { ProtectedRoute } from '../../utils/ProtectedRoute'
 
 const { Content } = Layout
 
