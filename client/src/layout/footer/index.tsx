@@ -1,8 +1,8 @@
-import React from "react";
-import { Layout } from "antd";
+import React from 'react'
+import { Layout } from 'antd'
 
-const { Footer } = Layout;
+const { Footer } = Layout
 
-const AppFooter: React.FC = () => <Footer>Footer</Footer>;
+const AppFooter: React.FC = () => <Footer>Footer</Footer>
 
-export default AppFooter;
+export default AppFooter

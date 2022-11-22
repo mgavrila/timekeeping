@@ -1,26 +1,26 @@
-import { createClient } from "redis";
+import { createClient } from 'redis'
 
-const redisUrl = `redis://localhost:6379`;
+const redisUrl = `redis://localhost:6379`
 const redisClient = createClient({
   url: redisUrl,
-});
+})
 
 const connectRedis = async () => {
   try {
-    await redisClient.connect();
-    console.log("? Redis client connected...");
+    await redisClient.connect()
+    console.log('? Redis client connected...')
     redisClient.set(
-      "tRPC",
-      "??Welcome to rRPC with React.js, Express and Typescript!"
-    );
+      'tRPC',
+      '??Welcome to rRPC with React.js, Express and Typescript!'
+    )
   } catch (err: any) {
-    console.log(err.message);
-    process.exit(1);
+    console.log(err.message)
+    process.exit(1)
   }
-};
+}
 
-connectRedis();
+connectRedis()
 
-redisClient.on("error", (err) => console.log(err));
+redisClient.on('error', (err) => console.log(err))
 
-export default redisClient;
+export default redisClient

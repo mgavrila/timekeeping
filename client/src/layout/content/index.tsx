@@ -1,55 +1,62 @@
-import React from "react";
-import { Layout, Form, Button, Input, Card, Typography } from "antd";
+import React, { Suspense } from 'react'
+import { Layout } from 'antd'
+import Login from '../../sections/auth/Login'
+import Register from '../../sections/auth/Register'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import Dashboard from '../../sections/dashboard'
+import { ProtectedRoute } from '../../context/ProtectedRoute'
+import { AuthProvider } from '../../context/AuthProvider'
 
-const { Content } = Layout;
+const { Content } = Layout
+
+const ROUTES = [
+  {
+    path: 'login',
+    component: Login,
+    auth: false,
+  },
+  {
+    path: 'register',
+    component: Register,
+    auth: false,
+  },
+  { path: '/', component: Dashboard, auth: true },
+]
 
 const AppContent: React.FC = () => {
   return (
     <Content
       style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
-      <Card
-        title={<Typography.Title level={3}>Log In</Typography.Title>}
-        style={{ width: 400, height: 400 }}
-        headStyle={{
-          display: "flex",
-          justifyContent: "center",
-          height: "80px",
-        }}
-        bodyStyle={{
-          display: "flex",
-          flexDirection: "column",
-          width: "100%",
-          height: 300,
-          justifyContent: "center",
-          alignItems: "center",
-          paddingTop: 0,
-        }}
-      >
-        <Form
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 12,
-            width: "100%",
-          }}
-        >
-          <Input placeholder="Username" required />
+      <Suspense fallback={null}>
+        <Routes>
+          {ROUTES.map((route) => {
+            const { component: RouteComponent, path, auth } = route
 
-          <Input.Password placeholder="Password" required />
-
-          <Typography>
-            Don't have an account? Register <a href="/">here</a>.
-          </Typography>
-          <Button>Log In</Button>
-        </Form>
-      </Card>
+            return (
+              <Route
+                key={path}
+                path={path}
+                element={
+                  auth ? (
+                    <ProtectedRoute>
+                      <RouteComponent />
+                    </ProtectedRoute>
+                  ) : (
+                    <RouteComponent />
+                  )
+                }
+              />
+            )
+          })}
+        </Routes>
+      </Suspense>
     </Content>
-  );
-};
+  )
+}
 
-export default AppContent;
+export default AppContent

@@ -1,16 +1,16 @@
-import path from "path";
-require("dotenv").config({ path: path.join(__dirname, "../../.env") });
+import path from 'path'
+require('dotenv').config({ path: path.join(__dirname, '../../.env') })
 
 const customConfig: {
-  port: number;
-  accessTokenExpiresIn: number;
-  refreshTokenExpiresIn: number;
-  origin: string;
-  dbUri: string;
-  accessTokenPrivateKey: string;
-  accessTokenPublicKey: string;
-  refreshTokenPrivateKey: string;
-  refreshTokenPublicKey: string;
+  port: number
+  accessTokenExpiresIn: number
+  refreshTokenExpiresIn: number
+  origin: string
+  dbUri: string
+  accessTokenPrivateKey: string
+  accessTokenPublicKey: string
+  refreshTokenPrivateKey: string
+  refreshTokenPublicKey: string
 } = {
   port: 8000,
   origin: process.env.ORIGIN as string,
@@ -23,6 +23,6 @@ const customConfig: {
   accessTokenPublicKey: process.env.ACCESS_TOKEN_PUBLIC_KEY as string,
   refreshTokenPrivateKey: process.env.REFRESH_TOKEN_PRIVATE_KEY as string,
   refreshTokenPublicKey: process.env.REFRESH_TOKEN_PUBLIC_KEY as string,
-};
+}
 
-export default customConfig;
+export default customConfig

@@ -1,10 +1,10 @@
-import { useState } from "react";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { getFetch, httpBatchLink, loggerLink } from "@trpc/client";
-import { trpc } from "./trpc";
+import { useState } from 'react'
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { getFetch, httpBatchLink, loggerLink } from '@trpc/client'
+import { trpc } from './trpc'
 
-import AppLayout from "./layout";
+import AppLayout from './layout'
 
 function App() {
   const [queryClient] = useState(
@@ -16,25 +16,25 @@ function App() {
           },
         },
       })
-  );
+  )
 
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [
         loggerLink(),
         httpBatchLink({
-          url: "http://localhost:8000/api/trpc",
+          url: 'http://localhost:8000/api/trpc',
           fetch: async (input, init?) => {
-            const fetch = getFetch();
+            const fetch = getFetch()
             return fetch(input, {
               ...init,
-              credentials: "include",
-            });
+              credentials: 'include',
+            })
           },
         }),
       ],
     })
-  );
+  )
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
@@ -42,7 +42,7 @@ function App() {
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </trpc.Provider>
-  );
+  )
 }
 
-export default App;
+export default App
