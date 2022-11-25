@@ -54,7 +54,7 @@ export const registerHandler = async ({
     if (err.code === 11000) {
       throw new TRPCError({
         code: 'CONFLICT',
-        message: 'Email already exists',
+        message: 'Email already exists!',
       })
     }
     throw err
