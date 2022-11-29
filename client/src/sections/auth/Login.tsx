@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Button, Input, Card, Typography } from 'antd'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { trpc } from '../../trpc'
 
 const Login: React.FC = () => {
+  const navigate = useNavigate()
+
   const loginMutation = trpc.loginUser.useMutation()
 
   const [formData, setFormData] = useState({
@@ -25,9 +27,10 @@ const Login: React.FC = () => {
   }
 
   useEffect(() => {
-    if (loginMutation.data) {
-      //TODO: set in cookie authToken
+    if (loginMutation.data?.access_token) {
+      navigate('/')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loginMutation])
 
   return (

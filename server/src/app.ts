@@ -6,7 +6,6 @@ import cors from 'cors'
 import * as trpcExpress from '@trpc/server/adapters/express'
 import connectDB from './utils/connectDB'
 import cookieParser from 'cookie-parser'
-import redisClient from './utils/connectRedis'
 import { createUserSchema, loginUserSchema } from './schemas/user.schema'
 import {
   loginHandler,
@@ -54,10 +53,6 @@ const isAuthorized = t.middleware(({ ctx, next }) => {
 const isAuthorizedProcedure = t.procedure.use(isAuthorized)
 
 const userRouter = t.router({
-  sayHello: t.procedure.query(async () => {
-    const message = await redisClient.get('tRPC')
-    return { message }
-  }),
   getMe: isAuthorizedProcedure.query(({ ctx }) => getMeHandler({ ctx })),
 })
 

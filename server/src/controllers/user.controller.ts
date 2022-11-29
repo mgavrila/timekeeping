@@ -6,9 +6,7 @@ export const getMeHandler = ({ ctx }: { ctx: Context }) => {
     const user = ctx.user
     return {
       status: 'success',
-      data: {
-        user,
-      },
+      user,
     }
   } catch (err: any) {
     throw new TRPCError({

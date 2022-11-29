@@ -1,13 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
-import { useAuth } from '../hooks/useAuth'
+
+import { useAppDispatch } from '../hooks/useRedux'
+import { setUser } from '../store/auth/authSlice'
+import { trpc } from '../trpc'
+import { Spin } from 'antd'
 
 export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { user } = useAuth()
+  const userQuery = trpc.getMe.useQuery()
+  const dispatch = useAppDispatch()
 
-  if (!user) {
+  useEffect(() => {
+    if (userQuery.data) {
+      dispatch(setUser(userQuery.data.user))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userQuery])
+
+  if (userQuery.isLoading) {
+    return <Spin size="large" />
+  }
+
+  if (!userQuery.data) {
     // user is not authenticated
     return <Navigate to="login" />
   }
