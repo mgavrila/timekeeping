@@ -1,25 +1,33 @@
 import React from 'react'
 import { ConfigProvider, Layout } from 'antd'
 import AppHeader from './header'
-import AppFooter from './footer'
 import AppContent from './content'
+import Sidebar from '../sections/sidebar'
+import { useTheme } from 'styled-components'
+import { ThemeConfig } from '../configs/theme'
 
-const AppLayout: React.FC = () => (
-  <ConfigProvider
-    theme={{
-      token: {
-        colorPrimary: 'red',
-        // colorBgBase: "#00b96b",
-        // colorBgContainer: "white",
-        colorBgLayout: '#404258',
-      },
-    }}
-  >
-    <Layout style={{ height: '100vh' }}>
-      <AppHeader />
-      <AppContent />
-    </Layout>
-  </ConfigProvider>
-)
+const AppLayout: React.FC = () => {
+  const theme = useTheme() as ThemeConfig
+
+  return (
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: theme.dark.button,
+          colorBgLayout: theme.dark.content,
+        },
+      }}
+    >
+      <Layout style={{ minHeight: '100vh' }}>
+        <AppHeader />
+        <Layout>
+          <Sidebar />
+
+          <AppContent />
+        </Layout>
+      </Layout>
+    </ConfigProvider>
+  )
+}
 
 export default AppLayout

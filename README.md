@@ -9,6 +9,7 @@
 - Antd
 - react-toastify
 - redux-toolkit
+- styled-components
 
 # Commands
 - sudo service redis-server start (open redis server)
