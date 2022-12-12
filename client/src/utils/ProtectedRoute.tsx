@@ -5,6 +5,7 @@ import { useAppDispatch } from '../hooks/useRedux'
 import { setUser } from '../store/auth/authSlice'
 import { trpc } from '../trpc'
 import { Spin } from 'antd'
+import MainContainer from '../styled-components/MainContainer'
 
 export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -20,12 +21,16 @@ export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   }, [userQuery])
 
   if (userQuery.isLoading) {
-    return <Spin size="large" />
+    return (
+      <MainContainer>
+        <Spin size="large" />
+      </MainContainer>
+    )
   }
 
   if (!userQuery.data) {
     // user is not authenticated
-    return <Navigate to="login" />
+    return <Navigate to="/login" replace={true} />
   }
 
   return <>{children}</>

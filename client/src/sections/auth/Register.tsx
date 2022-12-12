@@ -5,6 +5,7 @@ import { trpc } from '../../trpc'
 import { AuthHelper } from '../../helpers/AuthHelper'
 import { toast } from 'react-toastify'
 import { ToastTypes } from '../../constants/enums'
+import MainContainer from '../../styled-components/MainContainer'
 
 const Register: React.FC = () => {
   const navigate = useNavigate()
@@ -83,100 +84,102 @@ const Register: React.FC = () => {
   }
 
   return (
-    <Card
-      title={<Typography.Title level={3}>Register</Typography.Title>}
-      style={{ width: 400, height: 500 }}
-      headStyle={{
-        display: 'flex',
-        justifyContent: 'center',
-        height: '80px',
-      }}
-      bodyStyle={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        height: 400,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingTop: 0,
-      }}
-    >
-      <Form
-        style={{
+    <MainContainer>
+      <Card
+        title={<Typography.Title level={3}>Register</Typography.Title>}
+        style={{ width: 400, height: 500 }}
+        headStyle={{
+          display: 'flex',
+          justifyContent: 'center',
+          height: '80px',
+        }}
+        bodyStyle={{
           display: 'flex',
           flexDirection: 'column',
-          gap: 8,
           width: '100%',
+          height: 400,
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingTop: 0,
         }}
-        onFinish={onSubmit}
       >
-        <div>
-          <Input
-            name="name"
-            placeholder="Full Name"
-            value={formData.name}
-            onChange={handleChange}
-          />
-          {errors.name && (
-            <Typography.Paragraph style={{ margin: 0, color: 'red' }}>
-              {errors.name}
-            </Typography.Paragraph>
-          )}
-        </div>
+        <Form
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 8,
+            width: '100%',
+          }}
+          onFinish={onSubmit}
+        >
+          <div>
+            <Input
+              name="name"
+              placeholder="Full Name"
+              value={formData.name}
+              onChange={handleChange}
+            />
+            {errors.name && (
+              <Typography.Paragraph style={{ margin: 0, color: 'red' }}>
+                {errors.name}
+              </Typography.Paragraph>
+            )}
+          </div>
 
-        <div>
-          <Input
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-          />
+          <div>
+            <Input
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+            />
 
-          {errors.email && (
-            <Typography.Paragraph style={{ margin: 0, color: 'red' }}>
-              {errors.email}
-            </Typography.Paragraph>
-          )}
-        </div>
+            {errors.email && (
+              <Typography.Paragraph style={{ margin: 0, color: 'red' }}>
+                {errors.email}
+              </Typography.Paragraph>
+            )}
+          </div>
 
-        <div>
-          <Input.Password
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-          />
+          <div>
+            <Input.Password
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+            />
 
-          {errors.password && (
-            <Typography.Paragraph style={{ margin: 0, color: 'red' }}>
-              {errors.password}
-            </Typography.Paragraph>
-          )}
-        </div>
+            {errors.password && (
+              <Typography.Paragraph style={{ margin: 0, color: 'red' }}>
+                {errors.password}
+              </Typography.Paragraph>
+            )}
+          </div>
 
-        <div>
-          <Input.Password
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-          />
+          <div>
+            <Input.Password
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+            />
 
-          {errors.confirmPassword && (
-            <Typography.Paragraph style={{ margin: 0, color: 'red' }}>
-              {errors.confirmPassword}
-            </Typography.Paragraph>
-          )}
-        </div>
+            {errors.confirmPassword && (
+              <Typography.Paragraph style={{ margin: 0, color: 'red' }}>
+                {errors.confirmPassword}
+              </Typography.Paragraph>
+            )}
+          </div>
 
-        <Typography>
-          Already have an account? Log In <Link to="/login">here</Link>.
-        </Typography>
-        <Button type="primary" htmlType="submit">
-          Sign Up
-        </Button>
-      </Form>
-    </Card>
+          <Typography>
+            Already have an account? Log In <Link to="/login">here</Link>.
+          </Typography>
+          <Button type="primary" htmlType="submit">
+            Sign Up
+          </Button>
+        </Form>
+      </Card>
+    </MainContainer>
   )
 }
 
