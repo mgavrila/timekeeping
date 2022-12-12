@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import NewProject from './cards/NewProject'
 import styled from 'styled-components'
 import Project from './cards/Project'
-import { useAppSelector } from '../../hooks/useRedux'
+import { useAppSelector, useAppDispatch } from '../../hooks/useRedux'
+import { setProjects, getProjects } from '../../store/projects/projectsSlice'
 import { getUser } from '../../store/auth/authSlice'
 import { USER_ACTIONS } from '../../constants/constants'
+import { Spin } from 'antd'
+import MainContainer from '../../styled-components/MainContainer'
+import Content from '../../styled-components/Content'
+
+import { trpc } from '../../trpc'
 
 const StyledProjectsContainer = styled.div`
   display: flex;
@@ -12,34 +18,42 @@ const StyledProjectsContainer = styled.div`
   flex-wrap: wrap;
 `
 
-const DUMMY_PROJECTS = [
-  {
-    id: '1',
-    name: 'Test project 1',
-  },
-  {
-    id: '2',
-    name: 'Test project 2',
-  },
-  {
-    id: '3',
-    name: 'Test project 3',
-  },
-]
-
 const Projects: React.FC = () => {
+  const dispatch = useAppDispatch()
+  const allProjectsQuery = trpc.getAllProjects.useQuery()
+
   const user = useAppSelector(getUser)
+  const projects = useAppSelector(getProjects)
 
   const hasAddAccess = USER_ACTIONS.projects.add.includes(user.role)
 
-  return (
-    <StyledProjectsContainer>
-      {hasAddAccess && <NewProject />}
+  useEffect(() => {
+    if (allProjectsQuery.data) {
+      dispatch(setProjects(allProjectsQuery.data.projects))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allProjectsQuery])
 
-      {DUMMY_PROJECTS.map((project) => (
-        <Project key={project.id} id={project.id} name={project.name} />
-      ))}
-    </StyledProjectsContainer>
+  if (allProjectsQuery.isLoading) {
+    return (
+      <MainContainer>
+        <Spin size="large" />
+      </MainContainer>
+    )
+  }
+
+  return (
+    <Content>
+      <StyledProjectsContainer>
+        {hasAddAccess && (
+          <NewProject refetchProjects={allProjectsQuery.refetch} />
+        )}
+
+        {projects?.map((project) => (
+          <Project key={project.id} id={project.id} name={project.name} />
+        ))}
+      </StyledProjectsContainer>
+    </Content>
   )
 }
 

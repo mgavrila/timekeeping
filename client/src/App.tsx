@@ -15,6 +15,7 @@ function App() {
         defaultOptions: {
           queries: {
             staleTime: 5 * 1000,
+            refetchOnWindowFocus: false,
           },
         },
       })
@@ -50,7 +51,7 @@ function App() {
           rtl={false}
           pauseOnFocusLoss
           draggable={false}
-          pauseOnHover
+          pauseOnHover={false}
           theme="light"
         />
         <ReactQueryDevtools initialIsOpen={false} />

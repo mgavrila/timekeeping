@@ -6,6 +6,7 @@ import { setUser } from '../store/auth/authSlice'
 import { trpc } from '../trpc'
 import { Spin } from 'antd'
 import MainContainer from '../styled-components/MainContainer'
+import Content from '../styled-components/Content'
 
 export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -22,9 +23,11 @@ export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
 
   if (userQuery.isLoading) {
     return (
-      <MainContainer>
-        <Spin size="large" />
-      </MainContainer>
+      <Content>
+        <MainContainer>
+          <Spin size="large" />
+        </MainContainer>
+      </Content>
     )
   }
 

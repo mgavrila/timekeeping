@@ -50,7 +50,6 @@ const Sidebar: React.FC = () => {
   }
 
   const handleClick: MenuProps['onClick'] = (props) => {
-    console.log(props)
     navigate(props.key)
   }
 

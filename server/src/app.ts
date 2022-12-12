@@ -7,6 +7,7 @@ import * as trpcExpress from '@trpc/server/adapters/express'
 import connectDB from './utils/connectDB'
 import cookieParser from 'cookie-parser'
 import { createUserSchema, loginUserSchema } from './schemas/user.schema'
+import { createProjectSchema } from './schemas/projects.schema'
 import {
   loginHandler,
   logoutHandler,
@@ -17,6 +18,10 @@ import customConfig from './config/default'
 import { inferAsyncReturnType, initTRPC, TRPCError } from '@trpc/server'
 import { deserializeUser } from './middleware/deserializeUser'
 import { getMeHandler } from './controllers/user.controller'
+import {
+  createProject,
+  getAllProjects,
+} from './controllers/projects.controller'
 
 dotenv.config({ path: path.join(__dirname, './.env') })
 
@@ -52,11 +57,18 @@ const isAuthorized = t.middleware(({ ctx, next }) => {
 
 const isAuthorizedProcedure = t.procedure.use(isAuthorized)
 
+const projectsRouter = t.router({
+  createProject: isAuthorizedProcedure
+    .input(createProjectSchema)
+    .mutation(({ input }) => createProject({ input })),
+  getAllProjects: isAuthorizedProcedure.query(getAllProjects),
+})
+
 const userRouter = t.router({
   getMe: isAuthorizedProcedure.query(({ ctx }) => getMeHandler({ ctx })),
 })
 
-const appRouter = t.mergeRouters(authRouter, userRouter)
+const appRouter = t.mergeRouters(authRouter, userRouter, projectsRouter)
 
 export type AppRouter = typeof appRouter
 
