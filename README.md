@@ -1,4 +1,9 @@
 # timetracking
+Main goal for this app is to be able to:
+- timetrack activity
+- create projects and assign members to one or more projects
+- create and assign tasks, also ability to log time on specific task
+- view statistics (daily, weekly, monthly, yearly based on each member)
 
 # Prerequisites
 - mongodb
