@@ -8,6 +8,7 @@ import {
   findUser,
   findUserById,
   signToken,
+  countAllUsers,
 } from '../services/user.service'
 import redisClient from '../utils/connectRedis'
 import { signJwt, verifyJwt } from '../utils/jwt'
@@ -38,10 +39,18 @@ export const registerHandler = async ({
   input: CreateUserInput
 }) => {
   try {
+    let role = 'member'
+    const numberOfUsers = await countAllUsers()
+
+    if (numberOfUsers === 0) {
+      role = 'admin'
+    }
+
     const user = await createUser({
       email: input.email,
       name: input.name,
       password: input.password,
+      role,
     })
 
     return {

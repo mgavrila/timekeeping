@@ -2,6 +2,10 @@ import React from 'react'
 import { Card, Button, Typography } from 'antd'
 import styled from 'styled-components'
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons'
+import { useAppSelector } from '../../../hooks/useRedux'
+import { getUser } from '../../../store/auth/authSlice'
+import { USER_ACTIONS } from '../../../constants/constants'
+import { CrudOperations } from '../../../constants/enums'
 
 const StyledProjectCard = styled(Card)`
   width: 350px;
@@ -39,15 +43,15 @@ const StyledText = styled(Typography)`
 
 const ACTION_BUTTON = [
   {
-    type: 'edit',
+    type: CrudOperations.UPDATE,
     Icon: EditOutlined,
   },
   {
-    type: 'view',
+    type: CrudOperations.READ,
     Icon: EyeOutlined,
   },
   {
-    type: 'delete',
+    type: CrudOperations.DELETE,
     Icon: DeleteOutlined,
   },
 ]
@@ -58,17 +62,26 @@ type ProjectType = {
 }
 
 const Project: React.FC<ProjectType> = ({ id, name }) => {
+  const user = useAppSelector(getUser)
+
   return (
     <StyledProjectCard title={null} bodyStyle={{ height: '100%' }}>
       <StyledProjectContentContainer>
         <StyledText>{name}</StyledText>
 
         <StyledActionButtonsContainer>
-          {ACTION_BUTTON.map(({ type, Icon }) => (
-            <StyledEditButton key={type}>
-              <Icon />
-            </StyledEditButton>
-          ))}
+          {ACTION_BUTTON.map(({ type, Icon }) => {
+            const hasAccess = USER_ACTIONS.projects[type].includes(user.role)
+
+            if (hasAccess)
+              return (
+                <StyledEditButton key={type}>
+                  <Icon />
+                </StyledEditButton>
+              )
+
+            return null
+          })}
         </StyledActionButtonsContainer>
       </StyledProjectContentContainer>
     </StyledProjectCard>

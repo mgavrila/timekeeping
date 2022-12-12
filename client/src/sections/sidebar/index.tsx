@@ -8,7 +8,7 @@ import {
 import type { MenuProps } from 'antd'
 
 import { useAppSelector } from '../../hooks/useRedux'
-import { getAuth } from '../../store/auth/authSlice'
+import { getUser } from '../../store/auth/authSlice'
 import { useNavigate } from 'react-router-dom'
 
 const { Sider } = Layout
@@ -40,12 +40,12 @@ const items: MenuProps['items'] = MENU_ITEMS.map((item) => {
 })
 
 const Sidebar: React.FC = () => {
-  const auth = useAppSelector(getAuth)
+  const auth = useAppSelector(getUser)
   const navigate = useNavigate()
 
   const [collapsed, setCollapsed] = useState(false)
 
-  if (!auth) {
+  if (!auth.id) {
     return null
   }
 
