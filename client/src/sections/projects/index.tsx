@@ -2,6 +2,9 @@ import React from 'react'
 import NewProject from './cards/NewProject'
 import styled from 'styled-components'
 import Project from './cards/Project'
+import { useAppSelector } from '../../hooks/useRedux'
+import { getUser } from '../../store/auth/authSlice'
+import { USER_ACTIONS } from '../../constants/constants'
 
 const StyledProjectsContainer = styled.div`
   display: flex;
@@ -25,9 +28,13 @@ const DUMMY_PROJECTS = [
 ]
 
 const Projects: React.FC = () => {
+  const user = useAppSelector(getUser)
+
+  const hasAddAccess = USER_ACTIONS.projects.add.includes(user.role)
+
   return (
     <StyledProjectsContainer>
-      <NewProject />
+      {hasAddAccess && <NewProject />}
 
       {DUMMY_PROJECTS.map((project) => (
         <Project key={project.id} id={project.id} name={project.name} />

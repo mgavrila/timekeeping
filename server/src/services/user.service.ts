@@ -20,6 +20,10 @@ export const findUserById = async (id: string) => {
   return userModel.findById(id).lean()
 }
 
+export const countAllUsers = async () => {
+  return userModel.count()
+}
+
 // Find All users
 export const findAllUsers = async () => {
   return userModel.find()
