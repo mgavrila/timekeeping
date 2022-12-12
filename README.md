@@ -1,5 +1,8 @@
 # timetracking
 
+# Prerequisites
+- mongodb
+- redis server
 
 # Stack
 - tRPC
