@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Card, Button, Typography } from 'antd'
 import styled from 'styled-components'
-import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons'
+import { DeleteOutlined, EyeOutlined } from '@ant-design/icons'
 import { useAppSelector } from '../../../hooks/useRedux'
 import { getUser } from '../../../store/auth/authSlice'
 import { USER_ACTIONS } from '../../../constants/constants'
@@ -44,10 +44,6 @@ const StyledText = styled(Typography)`
 `
 
 const ACTION_BUTTON = [
-  {
-    type: CrudOperations.UPDATE,
-    Icon: EditOutlined,
-  },
   {
     type: CrudOperations.READ,
     Icon: EyeOutlined,
