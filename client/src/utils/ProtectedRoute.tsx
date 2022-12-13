@@ -15,11 +15,11 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (userQuery.data) {
+    if (userQuery.isSuccess && userQuery.data) {
       dispatch(setUser(userQuery.data.user))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userQuery])
+  }, [userQuery.isSuccess])
 
   if (userQuery.isLoading) {
     return (

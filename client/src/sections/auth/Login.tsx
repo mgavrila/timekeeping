@@ -28,11 +28,12 @@ const Login: React.FC = () => {
   }
 
   useEffect(() => {
-    if (loginMutation.data?.access_token) {
+    if (loginMutation.isSuccess && loginMutation.data?.access_token) {
       navigate('/')
+      loginMutation.reset()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loginMutation])
+  }, [loginMutation.isSuccess])
 
   return (
     <MainContainer>
