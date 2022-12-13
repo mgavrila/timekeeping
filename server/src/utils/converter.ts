@@ -1,3 +1,5 @@
+import { isArray } from 'lodash'
+
 const sanitize = (data: any, shouldParse = false) => {
   if (!data || data.length === 0 || Object.keys(data).length === 0) {
     return data
@@ -11,6 +13,12 @@ const sanitize = (data: any, shouldParse = false) => {
         ? JSON.parse(JSON.stringify(item))
         : item
 
+      Object.entries(otherProps).forEach(([key, value]) => {
+        if (isArray(value)) {
+          otherProps[key] = sanitize(value)
+        }
+      })
+
       sanitizedData.push({
         id: String(_id),
         ...otherProps,
@@ -21,6 +29,12 @@ const sanitize = (data: any, shouldParse = false) => {
   }
 
   const { _id, ...otherProps } = JSON.parse(JSON.stringify(data))
+
+  Object.entries(otherProps).forEach(([key, value]) => {
+    if (isArray(value)) {
+      otherProps[key] = sanitize(value)
+    }
+  })
 
   return { id: String(_id), ...otherProps }
 }

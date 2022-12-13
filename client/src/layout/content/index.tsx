@@ -1,12 +1,14 @@
 import React, { Suspense } from 'react'
+import { Routes, Route } from 'react-router-dom'
+
 import Login from '../../sections/auth/Login'
 import Register from '../../sections/auth/Register'
-import { Routes, Route } from 'react-router-dom'
 import Dashboard from '../../sections/dashboard'
 import TimeSheet from '../../sections/timesheet'
 import Projects from '../../sections/projects'
-import { ProtectedRoute } from '../../utils/ProtectedRoute'
+import ProtectedRoute from '../../utils/ProtectedRoute'
 import Content from '../../styled-components/Content'
+import ViewProject from '../../sections/projects/viewProject'
 
 const ROUTES = [
   {
@@ -22,6 +24,7 @@ const ROUTES = [
   { path: '/', component: Dashboard, auth: true },
   { path: 'timesheet', component: TimeSheet, auth: true },
   { path: 'projects', component: Projects, auth: true },
+  { path: 'projects/:id', component: ViewProject, auth: true },
 ]
 
 const AppContent: React.FC = () => {

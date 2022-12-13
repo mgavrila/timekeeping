@@ -8,7 +8,7 @@ import { Spin } from 'antd'
 import MainContainer from '../styled-components/MainContainer'
 import Content from '../styled-components/Content'
 
-export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
+const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const userQuery = trpc.getMe.useQuery()
@@ -38,3 +38,5 @@ export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
 
   return <>{children}</>
 }
+
+export default ProtectedRoute

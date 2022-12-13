@@ -9,5 +9,10 @@ export const deleteProjectSchema = object({
   projectId: string({ required_error: 'Project id is required' }),
 })
 
+export const getProjectSchema = object({
+  projectId: string({ required_error: 'Project id is required' }),
+})
+
+export type GetProjectInput = TypeOf<typeof getProjectSchema>
 export type DeleteProjectInput = TypeOf<typeof deleteProjectSchema>
 export type CreateProjectInput = TypeOf<typeof createProjectSchema>

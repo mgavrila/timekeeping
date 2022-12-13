@@ -6,10 +6,13 @@ import cors from 'cors'
 import * as trpcExpress from '@trpc/server/adapters/express'
 import connectDB from './utils/connectDB'
 import cookieParser from 'cookie-parser'
+import { inferAsyncReturnType, initTRPC, TRPCError } from '@trpc/server'
+
 import { createUserSchema, loginUserSchema } from './schemas/user.schema'
 import {
   createProjectSchema,
   deleteProjectSchema,
+  getProjectSchema,
 } from './schemas/projects.schema'
 import {
   loginHandler,
@@ -18,13 +21,13 @@ import {
   registerHandler,
 } from './controllers/auth.controller'
 import customConfig from './config/default'
-import { inferAsyncReturnType, initTRPC, TRPCError } from '@trpc/server'
 import { deserializeUser } from './middleware/deserializeUser'
 import { getMeHandler, getAllUsers } from './controllers/user.controller'
 import {
   createProject,
   getAllProjects,
   deleteProject,
+  getProject,
 } from './controllers/projects.controller'
 
 dotenv.config({ path: path.join(__dirname, './.env') })
@@ -69,6 +72,9 @@ const projectsRouter = t.router({
   deleteProject: isAuthorizedProcedure
     .input(deleteProjectSchema)
     .mutation(({ input }) => deleteProject({ input })),
+  getProject: isAuthorizedProcedure
+    .input(getProjectSchema)
+    .query(({ input }) => getProject({ input })),
 })
 
 const userRouter = t.router({

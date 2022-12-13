@@ -8,7 +8,7 @@ export const addProject = (input: Projects) => {
 
 // Find Project by Id
 export const findProjectById = async (id: string) => {
-  return projectsModel.findById(id).lean()
+  return projectsModel.findById(id).populate({ path: 'members' })
 }
 
 // Find All projects

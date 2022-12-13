@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { Card, Button, Typography } from 'antd'
 import styled from 'styled-components'
 import { DeleteOutlined, EyeOutlined } from '@ant-design/icons'
+import { useNavigate } from 'react-router-dom'
+
 import { useAppSelector } from '../../../hooks/useRedux'
 import { getUser } from '../../../store/auth/authSlice'
 import { USER_ACTIONS } from '../../../constants/constants'
@@ -61,6 +63,7 @@ type ProjectType = {
 }
 
 const Project: React.FC<ProjectType> = ({ id, name, refetchProjects }) => {
+  const navigate = useNavigate()
   const deleteProjectMutation = trpc.deleteProject.useMutation()
 
   const user = useAppSelector(getUser)
@@ -80,7 +83,10 @@ const Project: React.FC<ProjectType> = ({ id, name, refetchProjects }) => {
           deleteProjectMutation.mutate({ projectId: id })
         },
       })
+      return
     }
+
+    navigate(`/projects/${id}`)
   }
 
   return (

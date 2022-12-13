@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import NewProject from './cards/NewProject'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
+import { Spin } from 'antd'
+
+import NewProject from './cards/NewProject'
 import Project from './cards/Project'
 import { useAppSelector, useAppDispatch } from '../../hooks/useRedux'
 import { setProjects, getProjects } from '../../store/projects/projectsSlice'
 import { getUser } from '../../store/auth/authSlice'
 import { USER_ACTIONS } from '../../constants/constants'
-import { Spin } from 'antd'
 import MainContainer from '../../styled-components/MainContainer'
 import Content from '../../styled-components/Content'
 
