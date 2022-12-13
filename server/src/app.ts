@@ -17,7 +17,7 @@ import {
 import customConfig from './config/default'
 import { inferAsyncReturnType, initTRPC, TRPCError } from '@trpc/server'
 import { deserializeUser } from './middleware/deserializeUser'
-import { getMeHandler } from './controllers/user.controller'
+import { getMeHandler, getAllUsers } from './controllers/user.controller'
 import {
   createProject,
   getAllProjects,
@@ -66,6 +66,7 @@ const projectsRouter = t.router({
 
 const userRouter = t.router({
   getMe: isAuthorizedProcedure.query(({ ctx }) => getMeHandler({ ctx })),
+  getAllUsers: isAuthorizedProcedure.query(getAllUsers),
 })
 
 const appRouter = t.mergeRouters(authRouter, userRouter, projectsRouter)

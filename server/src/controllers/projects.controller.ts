@@ -5,6 +5,7 @@ import {
   addProject,
   findAllProjects,
 } from '../services/projects.service'
+import { findUsersByIds } from '../services/user.service'
 import { sanitize } from '../utils/converter'
 
 export const createProject = async ({
@@ -22,7 +23,9 @@ export const createProject = async ({
       })
     }
 
-    const project = await addProject(input)
+    const users = await findUsersByIds(input.members)
+
+    const project = await addProject({ name: input.name, members: users })
 
     return {
       status: 'success',

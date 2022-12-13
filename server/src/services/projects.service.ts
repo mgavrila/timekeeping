@@ -2,7 +2,7 @@ import { FilterQuery, QueryOptions } from 'mongoose'
 import projectsModel, { Projects } from '../models/projects.model'
 
 // CreateProject service
-export const addProject = (input: Partial<Projects>) => {
+export const addProject = (input: Projects) => {
   return projectsModel.create(input)
 }
 

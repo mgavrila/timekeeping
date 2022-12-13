@@ -29,6 +29,11 @@ export const findAllUsers = async () => {
   return userModel.find()
 }
 
+// Find All users by array of string Ids
+export const findUsersByIds = async (ids: string[]) => {
+  return userModel.find({ _id: { $in: ids } })
+}
+
 // Find one user by any fields
 export const findUser = async (
   query: FilterQuery<User>,

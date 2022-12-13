@@ -1,11 +1,5 @@
-import {
-  getModelForClass,
-  index,
-  modelOptions,
-  pre,
-  prop,
-} from '@typegoose/typegoose'
-
+import { getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose'
+import { User } from './user.model'
 @modelOptions({
   schemaOptions: {
     // Add createdAt and updatedAt fields
@@ -17,6 +11,9 @@ import {
 export class Projects {
   @prop()
   name: string
+
+  @prop({ ref: () => User })
+  members: Ref<User>[]
 }
 
 // Create the user model from the User class

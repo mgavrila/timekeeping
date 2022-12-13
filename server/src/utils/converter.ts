@@ -1,4 +1,4 @@
-const sanitize = (data: any) => {
+const sanitize = (data: any, shouldParse = false) => {
   if (!data || data.length === 0 || Object.keys(data).length === 0) {
     return data
   }
@@ -7,7 +7,9 @@ const sanitize = (data: any) => {
     const sanitizedData: any[] = []
 
     data.forEach((item: any) => {
-      const { _id, ...otherProps } = item
+      const { _id, ...otherProps } = shouldParse
+        ? JSON.parse(JSON.stringify(item))
+        : item
 
       sanitizedData.push({
         id: String(_id),
