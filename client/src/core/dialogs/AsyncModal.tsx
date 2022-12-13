@@ -26,6 +26,7 @@ const AsyncModal: React.FC<AsyncModalType> = ({
       confirmLoading={isLoading}
       onCancel={onCancel}
       centered
+      maskClosable={false}
     >
       {children}
     </Modal>

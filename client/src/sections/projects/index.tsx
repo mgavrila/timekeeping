@@ -50,7 +50,12 @@ const Projects: React.FC = () => {
         )}
 
         {projects?.map((project) => (
-          <Project key={project.id} id={project.id} name={project.name} />
+          <Project
+            key={project.id}
+            id={project.id}
+            name={project.name}
+            refetchProjects={allProjectsQuery.refetch}
+          />
         ))}
       </StyledProjectsContainer>
     </Content>

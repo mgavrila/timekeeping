@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Card, Button, Typography } from 'antd'
 import styled from 'styled-components'
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons'
@@ -6,6 +6,8 @@ import { useAppSelector } from '../../../hooks/useRedux'
 import { getUser } from '../../../store/auth/authSlice'
 import { USER_ACTIONS } from '../../../constants/constants'
 import { CrudOperations } from '../../../constants/enums'
+import { trpc } from '../../../trpc'
+import { confirm } from '../../../core/dialogs/ConfirmModal'
 
 const StyledProjectCard = styled(Card)`
   width: 350px;
@@ -59,10 +61,31 @@ const ACTION_BUTTON = [
 type ProjectType = {
   id: string
   name: string
+  refetchProjects: () => void
 }
 
-const Project: React.FC<ProjectType> = ({ id, name }) => {
+const Project: React.FC<ProjectType> = ({ id, name, refetchProjects }) => {
+  const deleteProjectMutation = trpc.deleteProject.useMutation()
+
   const user = useAppSelector(getUser)
+
+  useEffect(() => {
+    if (deleteProjectMutation?.status === 'success') {
+      deleteProjectMutation.reset()
+      refetchProjects()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deleteProjectMutation])
+
+  const handleClick = (actionType: CrudOperations) => {
+    if (actionType === CrudOperations.DELETE) {
+      confirm({
+        onOk: () => {
+          deleteProjectMutation.mutate({ projectId: id })
+        },
+      })
+    }
+  }
 
   return (
     <StyledProjectCard title={null} bodyStyle={{ height: '100%' }}>
@@ -75,7 +98,7 @@ const Project: React.FC<ProjectType> = ({ id, name }) => {
 
             if (hasAccess)
               return (
-                <StyledEditButton key={type}>
+                <StyledEditButton key={type} onClick={() => handleClick(type)}>
                   <Icon />
                 </StyledEditButton>
               )

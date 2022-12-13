@@ -1,4 +1,4 @@
-import { FilterQuery, QueryOptions } from 'mongoose'
+import mongoose, { FilterQuery, QueryOptions } from 'mongoose'
 import projectsModel, { Projects } from '../models/projects.model'
 
 // CreateProject service
@@ -22,4 +22,8 @@ export const findProject = async (
   options: QueryOptions = {}
 ) => {
   return projectsModel.findOne(query, {}, options)
+}
+
+export const removeProject = async (id: string) => {
+  return projectsModel.deleteOne({ _id: new mongoose.Types.ObjectId(id) })
 }

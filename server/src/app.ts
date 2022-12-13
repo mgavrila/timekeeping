@@ -7,7 +7,10 @@ import * as trpcExpress from '@trpc/server/adapters/express'
 import connectDB from './utils/connectDB'
 import cookieParser from 'cookie-parser'
 import { createUserSchema, loginUserSchema } from './schemas/user.schema'
-import { createProjectSchema } from './schemas/projects.schema'
+import {
+  createProjectSchema,
+  deleteProjectSchema,
+} from './schemas/projects.schema'
 import {
   loginHandler,
   logoutHandler,
@@ -21,6 +24,7 @@ import { getMeHandler, getAllUsers } from './controllers/user.controller'
 import {
   createProject,
   getAllProjects,
+  deleteProject,
 } from './controllers/projects.controller'
 
 dotenv.config({ path: path.join(__dirname, './.env') })
@@ -62,6 +66,9 @@ const projectsRouter = t.router({
     .input(createProjectSchema)
     .mutation(({ input }) => createProject({ input })),
   getAllProjects: isAuthorizedProcedure.query(getAllProjects),
+  deleteProject: isAuthorizedProcedure
+    .input(deleteProjectSchema)
+    .mutation(({ input }) => deleteProject({ input })),
 })
 
 const userRouter = t.router({

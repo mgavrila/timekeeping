@@ -1,9 +1,13 @@
 import { TRPCError } from '@trpc/server'
-import { CreateProjectInput } from '../schemas/projects.schema'
+import {
+  CreateProjectInput,
+  DeleteProjectInput,
+} from '../schemas/projects.schema'
 import {
   findProject,
   addProject,
   findAllProjects,
+  removeProject,
 } from '../services/projects.service'
 import { findUsersByIds } from '../services/user.service'
 import { sanitize } from '../utils/converter'
@@ -43,6 +47,26 @@ export const getAllProjects = async () => {
     return {
       status: 'success',
       projects: sanitize(projects),
+    }
+  } catch (err: any) {
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+      message: err.message,
+    })
+  }
+}
+
+export const deleteProject = async ({
+  input,
+}: {
+  input: DeleteProjectInput
+}) => {
+  try {
+    const removedProject = await removeProject(input.projectId)
+
+    return {
+      status: 'success',
+      removedProject,
     }
   } catch (err: any) {
     throw new TRPCError({
