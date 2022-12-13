@@ -68,6 +68,7 @@ const AddNewProject: React.FC<AddNewProjectType> = ({
   return (
     <AsyncModal
       title="Add new project"
+      okText="Add"
       isLoading={isLoading}
       isVisible={isVisible}
       onCancel={onCancelDialog}

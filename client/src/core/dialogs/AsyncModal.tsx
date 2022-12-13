@@ -6,6 +6,7 @@ type AsyncModalType = {
   isVisible: boolean
   title?: string | null
   isLoading: boolean
+  okText?: string
   onOk: () => void
   onCancel: () => void
 }
@@ -15,6 +16,7 @@ const AsyncModal: React.FC<AsyncModalType> = ({
   children,
   title,
   isLoading,
+  okText = 'Ok',
   onOk,
   onCancel,
 }) => {
@@ -27,6 +29,7 @@ const AsyncModal: React.FC<AsyncModalType> = ({
       onCancel={onCancel}
       centered
       maskClosable={false}
+      okText={okText}
     >
       {children}
     </Modal>
