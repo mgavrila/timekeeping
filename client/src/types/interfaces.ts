@@ -13,3 +13,8 @@ export interface AddProjectFieldsInterface {
   projectName: string
   members: Array<string | never>
 }
+
+export interface NewTeamFieldsInterface {
+  teamName: string
+  members: Array<string | never>
+}

@@ -10,6 +10,7 @@ import {
   findAllProjects,
   removeProject,
   findProjectById,
+  findAllProjectUsers,
 } from '../services/projects.service'
 import { findUsersByIds } from '../services/user.service'
 import { sanitize } from '../utils/converter'
@@ -87,6 +88,26 @@ export const getProject = async ({ input }: { input: GetProjectInput }) => {
         status: 'success',
         project: sanitize(project),
       }
+    }
+  } catch (err: any) {
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+      message: err.message,
+    })
+  }
+}
+
+export const getAllProjectUsers = async ({
+  input,
+}: {
+  input: GetProjectInput
+}) => {
+  try {
+    const projectMembers = await findAllProjectUsers(input.projectId)
+
+    return {
+      status: 'success',
+      projectMembers: sanitize(projectMembers, true),
     }
   } catch (err: any) {
     throw new TRPCError({

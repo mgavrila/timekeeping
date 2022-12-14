@@ -8,7 +8,7 @@ import TimeSheet from '../../sections/timesheet'
 import Projects from '../../sections/projects'
 import ProtectedRoute from '../../utils/ProtectedRoute'
 import Content from '../../styled-components/Content'
-import ViewProject from '../../sections/projects/viewProject'
+import SingleProject from '../../sections/projects/views/SingleProject'
 
 const ROUTES = [
   {
@@ -24,7 +24,7 @@ const ROUTES = [
   { path: '/', component: Dashboard, auth: true },
   { path: 'timesheet', component: TimeSheet, auth: true },
   { path: 'projects', component: Projects, auth: true },
-  { path: 'projects/:id', component: ViewProject, auth: true },
+  { path: 'projects/:id', component: SingleProject, auth: true },
 ]
 
 const AppContent: React.FC = () => {

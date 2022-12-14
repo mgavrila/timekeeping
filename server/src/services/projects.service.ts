@@ -7,7 +7,11 @@ export const addProject = (input: Projects) => {
 }
 
 // Find Project by Id
-export const findProjectById = async (id: string) => {
+export const findProjectById = async (id: string, populate = true) => {
+  if (!populate) {
+    return projectsModel.findById(id)
+  }
+
   return projectsModel.findById(id).populate({ path: 'members' })
 }
 
@@ -26,4 +30,10 @@ export const findProject = async (
 
 export const removeProject = async (id: string) => {
   return projectsModel.deleteOne({ _id: new mongoose.Types.ObjectId(id) })
+}
+
+export const findAllProjectUsers = async (projectId: string) => {
+  const project = await findProjectById(projectId)
+
+  return project?.members ?? []
 }
