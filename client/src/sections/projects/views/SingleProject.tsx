@@ -9,6 +9,7 @@ import { trpc } from '../../../trpc'
 import MainContainer from '../../../styled-components/MainContainer'
 import { UserInterface } from '../../../types/interfaces'
 import { ThemeConfig } from '../../../configs/theme'
+import Teams from './Teams'
 
 type ProjectType = {
   name: string
@@ -23,6 +24,13 @@ const StyledHeaderContainer = styled.div`
   flex-direction: column;
   width: 100%;
   align-items: center;
+`
+
+const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
 `
 
 const ViewProject: React.FC = () => {
@@ -58,27 +66,31 @@ const ViewProject: React.FC = () => {
 
   return (
     <Content>
-      <StyledHeaderContainer>
-        <Typography.Title
-          style={{
-            color: theme.dark.text,
-            textAlign: 'center',
-            marginBottom: '6px',
-          }}
-          level={3}
-        >
-          {name}
-        </Typography.Title>
-        <Button
-          style={{ color: theme.dark.text }}
-          type="link"
-          onClick={() => navigate(-1)}
-        >
-          <LeftOutlined />
-          Go back
-          <RightOutlined />
-        </Button>
-      </StyledHeaderContainer>
+      <StyledContainer>
+        <StyledHeaderContainer>
+          <Typography.Title
+            style={{
+              color: theme.dark.text,
+              textAlign: 'center',
+              marginBottom: '6px',
+            }}
+            level={2}
+          >
+            {name}
+          </Typography.Title>
+          <Button
+            style={{ color: theme.dark.text }}
+            type="link"
+            onClick={() => navigate(-1)}
+          >
+            <LeftOutlined />
+            Go back
+            <RightOutlined />
+          </Button>
+        </StyledHeaderContainer>
+
+        <Teams projectId={params.id} />
+      </StyledContainer>
     </Content>
   )
 }

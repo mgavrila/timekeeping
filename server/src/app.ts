@@ -14,6 +14,8 @@ import {
   deleteProjectSchema,
   getProjectSchema,
 } from './schemas/projects.schema'
+
+import { createTeamSchema, getProjectTeamsSchema } from './schemas/team.schema'
 import {
   loginHandler,
   logoutHandler,
@@ -28,7 +30,10 @@ import {
   getAllProjects,
   deleteProject,
   getProject,
+  getAllProjectUsers,
 } from './controllers/projects.controller'
+
+import { createTeam, getAllTeams } from './controllers/teams.controller'
 
 dotenv.config({ path: path.join(__dirname, './.env') })
 
@@ -75,6 +80,18 @@ const projectsRouter = t.router({
   getProject: isAuthorizedProcedure
     .input(getProjectSchema)
     .query(({ input }) => getProject({ input })),
+  getAllProjectUsers: isAuthorizedProcedure
+    .input(getProjectSchema)
+    .query(({ input }) => getAllProjectUsers({ input })),
+})
+
+const teamRouter = t.router({
+  createTeam: isAuthorizedProcedure
+    .input(createTeamSchema)
+    .mutation(({ input }) => createTeam({ input })),
+  getAllTeams: isAuthorizedProcedure
+    .input(getProjectTeamsSchema)
+    .query(({ input }) => getAllTeams({ input })),
 })
 
 const userRouter = t.router({
@@ -82,7 +99,12 @@ const userRouter = t.router({
   getAllUsers: isAuthorizedProcedure.query(getAllUsers),
 })
 
-const appRouter = t.mergeRouters(authRouter, userRouter, projectsRouter)
+const appRouter = t.mergeRouters(
+  authRouter,
+  userRouter,
+  projectsRouter,
+  teamRouter
+)
 
 export type AppRouter = typeof appRouter
 
