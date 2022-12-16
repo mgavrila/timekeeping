@@ -1,11 +1,11 @@
-import { UserRoles } from '../constants/enums'
+import { ApplicationRoles } from '../constants/enums'
 
 export interface UserInterface {
   createdAt: string | null
   email: string | null
   id: string | null
   name: string | null
-  role: UserRoles
+  role: ApplicationRoles
   updatedAt: string | null
 }
 

@@ -6,11 +6,18 @@ export enum ToastTypes {
   WARNING = 'warning',
 }
 
-export enum UserRoles {
+export enum ApplicationRoles {
   ADMIN = 'admin',
-  PROJECT_OWNER = 'projectOwner',
-  TEAM_LEAD = 'teamLead',
   MEMBER = 'member',
+}
+
+export enum ProjectRoles {
+  PRODUCT_OWNER = 'productOwner',
+  DEVELOPER = 'developer',
+  DESIGNER = 'designer',
+  BUSINESS_ANALYST = 'businessAnalyst',
+  TEAM_LEAD = 'teamLead',
+  PROJECT_MANAGER = 'projectManager',
 }
 
 export enum CrudOperations {
