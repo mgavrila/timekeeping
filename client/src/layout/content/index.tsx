@@ -9,6 +9,7 @@ import Projects from '../../sections/projects'
 import ProtectedRoute from '../../utils/ProtectedRoute'
 import Content from '../../styled-components/Content'
 import SingleProject from '../../sections/projects/views/SingleProject'
+import SingleTeam from '../../sections/projects/views/SingleTeam'
 
 const ROUTES = [
   {
@@ -25,6 +26,11 @@ const ROUTES = [
   { path: 'timesheet', component: TimeSheet, auth: true },
   { path: 'projects', component: Projects, auth: true },
   { path: 'projects/:id', component: SingleProject, auth: true },
+  {
+    path: 'projects/:projectId/team/:teamId',
+    component: SingleTeam,
+    auth: true,
+  },
 ]
 
 const AppContent: React.FC = () => {

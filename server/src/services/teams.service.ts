@@ -1,4 +1,4 @@
-import { FilterQuery, QueryOptions } from 'mongoose'
+import mongoose, { FilterQuery, QueryOptions } from 'mongoose'
 import teamsModel, { Teams } from '../models/teams.model'
 import { findProjectById } from './projects.service'
 
@@ -20,4 +20,24 @@ export const findAllTeams = async (projectId: string) => {
   const project = await findProjectById(projectId, false)
 
   return teamsModel.find({ project }).lean()
+}
+
+export const deleteTeam = async (projectId: string, teamId: string) => {
+  const project = await findProjectById(projectId, false)
+
+  return teamsModel.deleteOne({
+    project,
+    _id: new mongoose.Types.ObjectId(teamId),
+  })
+}
+
+export const getTeamByProjectId = async (projectId: string, teamId: string) => {
+  const project = await findProjectById(projectId, false)
+
+  return teamsModel
+    .findOne({
+      project,
+      _id: new mongoose.Types.ObjectId(teamId),
+    })
+    .populate('members')
 }

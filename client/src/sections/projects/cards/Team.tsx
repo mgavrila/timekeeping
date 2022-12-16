@@ -59,13 +59,37 @@ const ACTION_BUTTON = [
 type TeamType = {
   id: string
   name: string
+  projectId: string
   refetchTeams: () => void
 }
 
-const Team: React.FC<TeamType> = ({ id, name, refetchTeams }) => {
+const Team: React.FC<TeamType> = ({ id, projectId, name, refetchTeams }) => {
   const navigate = useNavigate()
+  const deleteTeamMutation = trpc.deleteTeam.useMutation()
 
   const user = useAppSelector(getUser)
+
+  useEffect(() => {
+    if (deleteTeamMutation?.status === 'success') {
+      deleteTeamMutation.reset()
+      refetchTeams()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deleteTeamMutation])
+
+  const handleClick = (actionType: CrudOperations) => {
+    if (actionType === CrudOperations.DELETE) {
+      confirm({
+        onOk: () => {
+          deleteTeamMutation.mutate({ projectId, teamId: id })
+        },
+      })
+
+      return
+    }
+
+    navigate(`/projects/${projectId}/team/${id}`)
+  }
 
   return (
     <StyledTeamCard title={null} bodyStyle={{ height: '100%' }}>
@@ -78,7 +102,7 @@ const Team: React.FC<TeamType> = ({ id, name, refetchTeams }) => {
 
             if (hasAccess)
               return (
-                <StyledEditButton key={type}>
+                <StyledEditButton key={type} onClick={() => handleClick(type)}>
                   <Icon />
                 </StyledEditButton>
               )

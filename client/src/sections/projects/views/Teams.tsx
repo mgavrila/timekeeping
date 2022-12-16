@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react'
 import styled, { useTheme } from 'styled-components'
 import { Typography, Spin } from 'antd'
 import NewTeam from '../cards/NewTeam'
-import { ThemeConfig } from '../../../configs/theme'
 
+import { ThemeConfig } from '../../../configs/theme'
 import { trpc } from '../../../trpc'
 import MainContainer from '../../../styled-components/MainContainer'
 import Team from '../cards/Team'
+import { USER_ACTIONS } from '../../../constants/constants'
+import { useAppSelector } from '../../../hooks/useRedux'
+import { getUser } from '../../../store/auth/authSlice'
 
 const StyledContainer = styled.div`
   display: flex;
@@ -32,6 +35,7 @@ type TeamType = {
 }
 
 const Teams: React.FC<{ projectId: string }> = ({ projectId }) => {
+  const user = useAppSelector(getUser)
   const theme = useTheme() as ThemeConfig
   const teamsQuery = trpc.getAllTeams.useQuery({
     projectId,
@@ -54,6 +58,8 @@ const Teams: React.FC<{ projectId: string }> = ({ projectId }) => {
     )
   }
 
+  const hasAddAccess = USER_ACTIONS.teams.add.includes(user.role)
+
   return (
     <StyledContainer>
       <Typography.Title
@@ -67,7 +73,9 @@ const Teams: React.FC<{ projectId: string }> = ({ projectId }) => {
       </Typography.Title>
 
       <StyledTeamsContainer>
-        <NewTeam refetchTeams={teamsQuery.refetch} projectId={projectId} />
+        {hasAddAccess && (
+          <NewTeam refetchTeams={teamsQuery.refetch} projectId={projectId} />
+        )}
 
         {teams?.map((team) => (
           <Team
@@ -75,6 +83,7 @@ const Teams: React.FC<{ projectId: string }> = ({ projectId }) => {
             id={team.id}
             name={team.name}
             refetchTeams={teamsQuery.refetch}
+            projectId={projectId}
           />
         ))}
       </StyledTeamsContainer>

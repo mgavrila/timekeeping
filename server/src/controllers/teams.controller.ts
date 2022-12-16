@@ -1,6 +1,17 @@
 import { TRPCError } from '@trpc/server'
-import { CreateTeamInput, GetProjectTeamsInput } from '../schemas/team.schema'
-import { findTeam, addTeam, findAllTeams } from '../services/teams.service'
+import {
+  CreateTeamInput,
+  GetProjectTeamsInput,
+  DeleteTeamInput,
+  GetProjectTeamInput,
+} from '../schemas/team.schema'
+import {
+  findTeam,
+  addTeam,
+  findAllTeams,
+  deleteTeam,
+  getTeamByProjectId,
+} from '../services/teams.service'
 import { findProjectById } from '../services/projects.service'
 import { findUsersByIds } from '../services/user.service'
 import { sanitize } from '../utils/converter'
@@ -48,6 +59,38 @@ export const getAllTeams = async ({
     return {
       status: 'success',
       teams: sanitize(teams),
+    }
+  } catch (err: any) {
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+      message: err.message,
+    })
+  }
+}
+
+export const removeTeam = async ({ input }: { input: DeleteTeamInput }) => {
+  try {
+    const removedTeam = await deleteTeam(input.projectId, input.teamId)
+
+    return {
+      status: 'success',
+      removedTeam,
+    }
+  } catch (err: any) {
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+      message: err.message,
+    })
+  }
+}
+
+export const getTeam = async ({ input }: { input: GetProjectTeamInput }) => {
+  try {
+    const team = await getTeamByProjectId(input.projectId, input.teamId)
+
+    return {
+      status: 'success',
+      team: sanitize(team),
     }
   } catch (err: any) {
     throw new TRPCError({

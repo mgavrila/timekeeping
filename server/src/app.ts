@@ -15,7 +15,12 @@ import {
   getProjectSchema,
 } from './schemas/projects.schema'
 
-import { createTeamSchema, getProjectTeamsSchema } from './schemas/team.schema'
+import {
+  createTeamSchema,
+  getProjectTeamsSchema,
+  deleteTeamSchema,
+  getProjectTeamSchema,
+} from './schemas/team.schema'
 import {
   loginHandler,
   logoutHandler,
@@ -33,7 +38,12 @@ import {
   getAllProjectUsers,
 } from './controllers/projects.controller'
 
-import { createTeam, getAllTeams } from './controllers/teams.controller'
+import {
+  createTeam,
+  getAllTeams,
+  removeTeam,
+  getTeam,
+} from './controllers/teams.controller'
 
 dotenv.config({ path: path.join(__dirname, './.env') })
 
@@ -92,6 +102,12 @@ const teamRouter = t.router({
   getAllTeams: isAuthorizedProcedure
     .input(getProjectTeamsSchema)
     .query(({ input }) => getAllTeams({ input })),
+  deleteTeam: isAuthorizedProcedure
+    .input(deleteTeamSchema)
+    .mutation(({ input }) => removeTeam({ input })),
+  getTeam: isAuthorizedProcedure
+    .input(getProjectTeamSchema)
+    .query(({ input }) => getTeam({ input })),
 })
 
 const userRouter = t.router({
