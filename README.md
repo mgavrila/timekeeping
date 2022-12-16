@@ -1,7 +1,7 @@
 # timetracking
 Main goal for this app is to be able to:
 - timetrack activity
-- create projects and assign members to one or more projects
+- create projects and teams for each project. Assign members to one or more teams. Assign project roles to each member.
 - create and assign tasks, also ability to log time on specific task
 - view statistics (daily, weekly, monthly, yearly based on each member)
 
