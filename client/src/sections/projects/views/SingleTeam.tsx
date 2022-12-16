@@ -9,15 +9,6 @@ import { trpc } from '../../../trpc'
 import MainContainer from '../../../styled-components/MainContainer'
 import { UserInterface } from '../../../types/interfaces'
 import { ThemeConfig } from '../../../configs/theme'
-import Teams from './Teams'
-
-type ProjectType = {
-  name: string
-  id: string
-  createdAt: string
-  updatedAt: string
-  members: UserInterface[]
-}
 
 const StyledHeaderContainer = styled.div`
   display: flex;
@@ -33,28 +24,37 @@ const StyledContainer = styled.div`
   height: 100%;
 `
 
-const SingleProject: React.FC = () => {
+type ProjectType = {
+  name: string
+  id: string
+  createdAt: string
+  updatedAt: string
+  members: UserInterface[]
+}
+
+const SingleTeam: React.FC = () => {
   const params = useParams()
   const navigate = useNavigate()
   const theme = useTheme() as ThemeConfig
-  const [projectData, setProjectData] = useState<Partial<ProjectType>>({})
+  const [teamData, setTeamData] = useState<Partial<ProjectType>>({})
 
-  const getProjectQuery = trpc.getProject.useQuery({
-    projectId: params.id ?? '',
+  const getTeamQuery = trpc.getTeam.useQuery({
+    projectId: params.projectId ?? '',
+    teamId: params.teamId ?? '',
   })
 
   useEffect(() => {
-    if (getProjectQuery.isSuccess && getProjectQuery.data) {
-      setProjectData(getProjectQuery.data.project)
+    if (getTeamQuery.isSuccess && getTeamQuery.data) {
+      setTeamData(getTeamQuery.data.team)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getProjectQuery.isSuccess])
+  }, [getTeamQuery.isSuccess])
 
-  if (!params.id) {
+  if (!params.teamId || !params.projectId) {
     return <Navigate to="/projects" replace={true} />
   }
 
-  if (getProjectQuery.isLoading) {
+  if (getTeamQuery.isLoading) {
     return (
       <MainContainer>
         <Spin size="large" />
@@ -62,8 +62,7 @@ const SingleProject: React.FC = () => {
     )
   }
 
-  const { name } = projectData
-
+  const { name } = teamData
   return (
     <Content>
       <StyledContainer>
@@ -88,11 +87,9 @@ const SingleProject: React.FC = () => {
             <RightOutlined />
           </Button>
         </StyledHeaderContainer>
-
-        <Teams projectId={params.id} />
       </StyledContainer>
     </Content>
   )
 }
 
-export default SingleProject
+export default SingleTeam
