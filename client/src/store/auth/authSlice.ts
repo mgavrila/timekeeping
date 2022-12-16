@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { RootState } from '..'
-import { UserRoles } from '../../constants/enums'
+import { ApplicationRoles } from '../../constants/enums'
 import { UserInterface } from '../../types/interfaces'
 export interface AuthState {
   value: UserInterface
@@ -13,7 +13,7 @@ const initialState: AuthState = {
     email: null,
     id: null,
     name: null,
-    role: UserRoles.MEMBER,
+    role: ApplicationRoles.MEMBER,
     updatedAt: null,
   },
   status: 'idle',
